@@ -1,0 +1,31 @@
+body {
+    background-color: #eeeeee;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+h1, h2 {
+    color: green;
+    font-weight: bold;
+}
+
+h1 a {
+    color: #bb8800;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    display: list-item;
+    list-style-type: square;
+}
+
+
+footer {
+    padding: 0.1ex 2em;
+    margin-top: 2em;
+    border-top: solid 2px #facc15;
+    background-color: #ccffcc;
+}
