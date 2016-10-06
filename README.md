@@ -1,0 +1,4 @@
+OnOff
+=======
+
+Vypínání Internetu
