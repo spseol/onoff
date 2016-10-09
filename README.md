@@ -1,4 +1,5 @@
-OnOff
+On/Off
 =======
 
 Vypínání Internetu
+

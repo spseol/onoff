@@ -1,31 +1,210 @@
+/******************************************************************************
+*                          Other CSS files                                    *
+******************************************************************************/
+/*@import 'pygment.css';*/
+/*@import 'typogrify.css';*/
+/******************************************************************************
+*                          Compass and Susy                                   *
+******************************************************************************/
+@import url(http://fonts.googleapis.com/css?family=Bree+Serif&subset=latin,latin-ext);
+@import url(http://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic&subset=latin,latin-ext);
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+html {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+q, blockquote {
+  quotes: none; }
+  q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none; }
+
+a img {
+  border: none; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block; }
+
+/******************************************************************************
+*                          Fonts                                              *
+******************************************************************************/
+/******************************************************************************
+*                          Colors                                             *
+******************************************************************************/
+/******************************************************************************
+*                           Grid                                              *
+******************************************************************************/
+/******************************************************************************
+*                           Defaults                                          *
+******************************************************************************/
+/******************************************************************************
+*                           Layout                                            *
+******************************************************************************/
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
 body {
-    background-color: #eeeeee;
-    padding-left: 1em;
-    padding-right: 1em;
-}
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Lora", Georgia, "DejaVu Serif", serif;
+  font-size: 110%;
+  max-width: 60em;
+  line-height: normal;
+  padding: 0px 20px; }
 
-h1, h2 {
-    color: green;
-    font-weight: bold;
-}
+header {
+  margin-top: 0; }
+  header h1 {
+    font-size: 2.2em;
+    margin-top: 4px;
+    display: inline-block;
+    width: 15.83333%;
+    float: left;
+    margin-left: 0.41667%;
+    margin-right: 0.41667%; }
+    header h1 a {
+      text-decoration: none;
+      border-right: solid 2px #EF6C00;
+      border-bottom: solid 2px #EF6C00;
+      padding: 0.5ex 1ex; }
+  header nav {
+    width: 74.16667%;
+    float: right;
+    margin-left: 0.41667%;
+    margin-right: 0.41667%; }
+  header ul {
+    text-align: right; }
+  header li {
+    list-style-type: none;
+    display: inline;
+    margin: 0; }
+    header li a {
+      display: inline-block;
+      font-size: 1.5em;
+      padding: 20px 22px 10px;
+      font-weight: bold;
+      color: #EF6C00;
+      background-color: #f7f7f7; }
+    header li a:hover {
+      color: white;
+      background-color: #EF6C00; }
 
-h1 a {
-    color: #bb8800;
-}
-
-dt {
-    font-weight: bold;
-}
-
-dd {
-    display: list-item;
-    list-style-type: square;
-}
-
+main {
+  width: 99.16667%;
+  float: left;
+  margin-left: 0.41667%;
+  margin-right: 0.41667%; }
 
 footer {
-    padding: 0.1ex 2em;
-    margin-top: 2em;
-    border-top: solid 2px #facc15;
-    background-color: #ccffcc;
-}
+  width: 99.16667%;
+  float: left;
+  margin-left: 0.41667%;
+  margin-right: 0.41667%; }
+
+h1, h2, h3, h4, h5, h6 {
+  /*font-family: $font_nadpis;*/
+  font-weight: bold;
+  color: #EF6C00;
+  margin-top: 1em;
+  margin-bottom: 1ex; }
+  h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    color: #EF6C00; }
+
+h1 {
+  font-size: 2.6em; }
+
+h2 {
+  font-size: 2.1em; }
+
+h3 {
+  font-size: 1.7em; }
+
+h4 {
+  font-size: 1.3em; }
+
+h5 {
+  font-size: 1.15em; }
+
+h6 {
+  font-size: 1em; }
+
+li {
+  margin-left: 4.58333%;
+  list-style-type: disc;
+  display: list-item; }
+
+dt {
+  font-weight: bold; }
+
+dd {
+  margin-left: 4.58333%;
+  list-style-type: square;
+  display: list-item; }
+
+.login {
+  text-align: center; }
+  .login table {
+    font-size: 120%;
+    margin-left: auto;
+    margin-right: auto; }
+    .login table tr td {
+      padding-bottom: 0.7ex;
+      vertical-align: bottom; }
+    .login table tr td:first-child {
+      text-align: right;
+      padding-right: 1ex; }
+    .login table tr td:last-child {
+      text-align: left; }
+
+.left {
+  text-align: left; }
+
+.right {
+  text-align: right; }
+
+.ok-field {
+  border: solid 3px green; }
+
+.error-field {
+  border: solid 3px red; }
+
+footer {
+  margin-top: 2.5em; }
+
+/*-----------------------------------------------------------------------------
+vim:nowrap:
+*/
+
+/*# sourceMappingURL=styles.css.map */

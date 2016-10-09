@@ -1,5 +1,8 @@
 # Secret info
 config.py
+*.swp
+.sass-cache/
+*.map
 
 
 # Byte-compiled / optimized / DLL files

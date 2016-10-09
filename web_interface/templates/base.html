@@ -1,7 +1,11 @@
 <!doctype html>
 <html lang="cs">
 <head>
-  <title>Flask App</title>
+  {% if title %}
+    <title>On/Off: {{ title }}</title>
+  {% else %}
+    <title>On/Off</title>
+  {% endif %}
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="author" content="Marek">
@@ -20,19 +24,27 @@
 {%block body%}
 
   <header>
-    <h1>{%block header%}Flask{%endblock%}
-      <a href="{{url_for('index')}}">App</a></h1>
+    <h1><a href="{{url_for('index')}}">On/Off</a></h1>
     <nav>
       <ul>
-        <li><a href="{{url_for('super')}}">Super</a></li>
-        <li>Úžasný</li>
-        <li>Bombastický</li>
-        <li><a href="/number/42">Číslo 42</a></li>
+        <li><a href="#">LP1</a></li>
+        <li><a href="#">LP2</a></li>
+        <li><a href="#">LP3</a></li>
+        <li><a href="#">LogOut</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <article>
 
 
@@ -47,6 +59,7 @@
 
 
   <footer>
+  <hr />
     <dl><dt>Powered by:</dt>
       <dd><a href="http://python.org">Python</a></dd> 
       <dd><a href="http://flask.pocoo.org/">Flask</a></dd> 
@@ -60,8 +73,6 @@
       <dd><a href="http://sass-lang.com/">Sass lang</a></dd>
       <dd><a href="http://compass-style.org/">Compass </a></dd>
       <dd><a href="http://susy.oddbird.net/">Susy</a></dd>
-      <dd><a href="http://www.simplecss.it/">SimpleCSS</a></dd>
-      <dd><a href="http://purecss.io/">PureCSS</a></dd>
     </dl>
   </footer>
 
