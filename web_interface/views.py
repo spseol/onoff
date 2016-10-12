@@ -11,6 +11,20 @@ def index():
 
 @app.route('/<regex("LP[13456]|MIT"):lab>/')
 def place(lab):
+    if "LP" in lab:
+        flash(lab, 'noerror')
+    return render_template('base.html')
+
+
+@app.route('/mail/')
+def mail():
+    from web_interface import mail
+    from flask.ext.mail import Message
+    msg = Message('Přemět',
+                  sender='nozka@spseol.cz',
+                  recipients=['nozka@spseol.cz', ])
+    msg.body = 'Toto je důležitá zpráva'
+    mail.send(msg)
     return render_template('base.html')
 
 
