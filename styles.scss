@@ -5,12 +5,22 @@
 /*@import 'typogrify.css';*/
 
 /******************************************************************************
+*                          reset nebo normalize                               *
+******************************************************************************/
+/*@import "normalize";*/
+@import "compass/reset";
+
+/******************************************************************************
 *                          Compass and Susy                                   *
 ******************************************************************************/
-@import "compass/reset";
 @import "compass/css3";
 @import "compass/css3/border-radius";
 @import "compass/typography/lists/horizontal-list";
+
+@import "fancy-buttons";
+/*fancy-button ( color, font-size, border-radius, border-size ) */
+
+
 @import "susy";
 
 /******************************************************************************
@@ -26,6 +36,9 @@ $font_nadpis: 'Bree serif', Georgia, "Times New Roman", "DejaVu Serif", serif;
 *                          Colors                                             *
 ******************************************************************************/
 $oranzova: #EF6C00;
+@import "color-schemer";
+$cs-primary: $oranzova;
+
 $zelena:  #55AA55;
 
 $modra: #0431A1;
@@ -179,6 +192,11 @@ dd {
             }
         }
     }
+}
+
+.logout {
+    @include fancy-button(lighten($oranzova, 30), 25, 15px, 0px);
+    padding: 8px 10px;
 }
 
 .left {

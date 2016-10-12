@@ -9,6 +9,11 @@ def index():
     return render_template('base.html')
 
 
+@app.route('/<regex("LP[13456]|MIT"):lab>/')
+def place(lab):
+    return render_template('base.html')
+
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()

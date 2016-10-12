@@ -4,8 +4,9 @@
 /*@import 'pygment.css';*/
 /*@import 'typogrify.css';*/
 /******************************************************************************
-*                          Compass and Susy                                   *
+*                          reset nebo normalize                               *
 ******************************************************************************/
+/*@import "normalize";*/
 @import url(http://fonts.googleapis.com/css?family=Bree+Serif&subset=latin,latin-ext);
 @import url(http://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic&subset=latin,latin-ext);
 html, body, div, span, applet, object, iframe,
@@ -55,6 +56,28 @@ a img {
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block; }
 
+/******************************************************************************
+*                          Compass and Susy                                   *
+******************************************************************************/
+/* incase an inverted custom gradient isn't specified */
+.fancy-button-reset-base-class, .logout {
+  font-family: "Lucida Grande", Lucida, Arial, sans-serif;
+  background: url('/images/button_bg.png') repeat-x bottom left;
+  margin: 0;
+  width: auto;
+  overflow: visible;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  border-style: solid;
+  font-weight: bold; }
+  .fancy-button-reset-base-class::-moz-focus-inner, .logout::-moz-focus-inner {
+    border: none;
+    padding: 0; }
+  .fancy-button-reset-base-class:focus, .logout:focus {
+    outline: none; }
+
+/*fancy-button ( color, font-size, border-radius, border-size ) */
 /******************************************************************************
 *                          Fonts                                              *
 ******************************************************************************/
@@ -187,6 +210,61 @@ dd {
       padding-right: 1ex; }
     .login table tr td:last-child {
       text-align: left; }
+
+.logout {
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  border-radius: 15px;
+  font-size: 25;
+  line-height: 1.2em;
+  padding: 0.3em 1em;
+  border-width: 0px;
+  background-color: #ffbe89;
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iMTAlIiBzdG9wLWNvbG9yPSIjZmZlOGQ2Ii8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmZmI2N2EiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYWU2YSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmY2E5ZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+  background-size: 100%;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(10%, #ffe8d6), color-stop(50%, #ffb67a), color-stop(50%, #ffae6a), color-stop(100%, #ffca9d));
+  background-image: -moz-linear-gradient(#ffffff, #ffe8d6 10%, #ffb67a 50%, #ffae6a 50%, #ffca9d);
+  background-image: -webkit-linear-gradient(#ffffff, #ffe8d6 10%, #ffb67a 50%, #ffae6a 50%, #ffca9d);
+  background-image: linear-gradient(#ffffff, #ffe8d6 10%, #ffb67a 50%, #ffae6a 50%, #ffca9d);
+  border-color: #ff943d;
+  text-shadow: #ffe8d6 0px 1px 1px;
+  -moz-box-shadow: rgba(255, 255, 255, 0.76863) 0 0 0.1em 1px inset;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.76863) 0 0 0.1em 1px inset;
+  box-shadow: rgba(255, 255, 255, 0.76863) 0 0 0.1em 1px inset;
+  -moz-background-clip: padding;
+  -o-background-clip: padding-box;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+  padding: 8px 10px; }
+  .logout, .logout:visited {
+    color: #222222; }
+  .logout:hover, .logout:focus {
+    background-color: #ffb67a;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iMTAlIiBzdG9wLWNvbG9yPSIjZmZlMGM2Ii8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmZmFlNmEiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTU1YiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmYzE4ZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(10%, #ffe0c6), color-stop(50%, #ffae6a), color-stop(50%, #ffa55b), color-stop(100%, #ffc18e));
+    background-image: -moz-linear-gradient(#ffffff, #ffe0c6 10%, #ffae6a 50%, #ffa55b 50%, #ffc18e);
+    background-image: -webkit-linear-gradient(#ffffff, #ffe0c6 10%, #ffae6a 50%, #ffa55b 50%, #ffc18e);
+    background-image: linear-gradient(#ffffff, #ffe0c6 10%, #ffae6a 50%, #ffa55b 50%, #ffc18e);
+    border-color: #ff8c2d;
+    text-shadow: #ffe0c6 0px 1px 1px; }
+    .logout:hover, .logout:hover:visited, .logout:focus, .logout:focus:visited {
+      color: #222222; }
+  .logout:active {
+    background-color: #ffae6a;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmYWU2YSIvPjxzdG9wIG9mZnNldD0iMzAlIiBzdG9wLWNvbG9yPSIjZmZiMzc1Ii8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmZmE4NjAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTA1MSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmYzQ5MyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffae6a), color-stop(30%, #ffb375), color-stop(50%, #ffa860), color-stop(50%, #ffa051), color-stop(100%, #ffc493));
+    background-image: -moz-linear-gradient(#ffae6a, #ffb375 30%, #ffa860 50%, #ffa051 50%, #ffc493);
+    background-image: -webkit-linear-gradient(#ffae6a, #ffb375 30%, #ffa860 50%, #ffa051 50%, #ffc493);
+    background-image: linear-gradient(#ffae6a, #ffb375 30%, #ffa860 50%, #ffa051 50%, #ffc493);
+    border-color: #ff841e;
+    text-shadow: #ffd7b7 0px -1px -1px;
+    -moz-box-shadow: #ff943d 0 0.08em 0.2em 1px inset;
+    -webkit-box-shadow: #ff943d 0 0.08em 0.2em 1px inset;
+    box-shadow: #ff943d 0 0.08em 0.2em 1px inset; }
+    .logout:active, .logout:active:visited {
+      color: #222222; }
 
 .left {
   text-align: left; }

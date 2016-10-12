@@ -27,10 +27,15 @@
     <h1><a href="{{url_for('index')}}">On/Off</a></h1>
     <nav>
       <ul>
-        <li><a href="#">LP1</a></li>
-        <li><a href="#">LP2</a></li>
-        <li><a href="#">LP3</a></li>
-        <li><a href="#">LogOut</a></li>
+        <li><a href="{{url_for('place', lab='LP1')}}">LP1</a></li>
+        <li><a href="{{url_for('place', lab='LP3')}}">LP3</a></li>
+        <li><a href="{{url_for('place', lab='LP4')}}">LP4</a></li>
+        <li><a href="{{url_for('place', lab='LP5')}}">LP5</a></li>
+        <li><a href="{{url_for('place', lab='LP6')}}">LP6</a></li>
+        <li><a href="{{url_for('place', lab='MIT')}}">MIT</a></li>
+
+        <li><a href="{{url_for('index')}}" title="Odhlásit se!" 
+               class="logout">&#10008;</a></li>
       </ul>
     </nav>
   </header>
