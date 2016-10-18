@@ -34,13 +34,21 @@
         <li><a href="{{url_for('place', lab='LP6')}}">LP6</a></li>
         <li><a href="{{url_for('place', lab='MIT')}}">MIT</a></li>
 
-        <li><a href="{{url_for('index')}}" title="Odhlásit se!" 
+        <li><a href="{{url_for('index')}}" title="Nastavení!" 
+               class="logout">&#10000;</a></li>
+        <li><a href="{{url_for('logout')}}" title="Odhlásit se!" 
                class="logout">&#10008;</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
+
+{% if current_user.is_authenticated %}
+<strong>uživatel:</strong> {{ current_user.name }}, 
+<strong>role:</strong> {{ current_user.role_name }}
+{% endif %}
+
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -57,11 +65,22 @@
 
 
     {%block content%} {% filter markdown %}
-Your Markdown
+Full
 =============
 
-* ahoj
-* ahoj
+V tomto režimu je vše zapnuté. Nejsou blokovány žádné weby ani žádné porty.
+
+On <span class="on-color"></span>
+=============
+
+Teach <span class="teach-color"></span>
+=============
+
+Off <span class="off-color"></span>
+=============
+
+V tomto režimu je vše vypnuté. Nelze zobrazit žádnou webovou stránku a
+jsou blokována všechna **odchozí** i **příchozí** spojení.
 
     {% endfilter %} {%endblock content%}
 

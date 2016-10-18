@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /******************************************************************************
 *                          Other CSS files                                    *
 ******************************************************************************/
@@ -84,6 +85,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 /******************************************************************************
 *                          Colors                                             *
 ******************************************************************************/
+/*@include cs-test(cs-primary() cs-secondary() cs-tertiary() );*/
 /******************************************************************************
 *                           Grid                                              *
 ******************************************************************************/
@@ -106,6 +108,15 @@ body {
   max-width: 60em;
   line-height: normal;
   padding: 0px 20px; }
+
+a {
+  color: #ef8900; }
+
+a:hover {
+  color: #ef4400; }
+
+strong {
+  font-weight: bold; }
 
 header {
   margin-top: 0; }
@@ -280,6 +291,19 @@ dd {
 
 footer {
   margin-top: 2.5em; }
+
+#full::before, #on::before, #teach::before, #off::before {
+  content: "⛊";
+  color: green; }
+
+#on::before {
+  color: blue; }
+
+#teach::before {
+  color: magenta; }
+
+#off::before {
+  color: red; }
 
 /*-----------------------------------------------------------------------------
 vim:nowrap:

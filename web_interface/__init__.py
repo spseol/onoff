@@ -3,9 +3,11 @@
 # Úloha:  Flask -- aplikace
 ############################################################################
 from flask import Flask
-from flask.ext.markdown import Markdown
-from flask.ext.mail import Mail
+from flaskext.markdown import Markdown
+from flask_mail import Mail
+from flask_login import LoginManager
 from werkzeug.routing import BaseConverter
+
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -17,9 +19,9 @@ markdown = Markdown(app, extensions=['extra',
 
 mail = Mail(app)
 
-import flask_login
-login_manager = flask_login.LoginManager()
+login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 
 ###############################################################################

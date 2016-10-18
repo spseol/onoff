@@ -38,6 +38,18 @@ $font_nadpis: 'Bree serif', Georgia, "Times New Roman", "DejaVu Serif", serif;
 $oranzova: #EF6C00;
 @import "color-schemer";
 $cs-primary: $oranzova;
+$cs-scheme: 'accented-analogic';  // mono, complement, triad, tetrad, 
+                                  // analogic, accented-analogic
+$cs-hue-offset: 15;
+$cs-brightness-offset: 10;
+$cs-color-model: ryb;  // rgb, ryb
+
+/*@include cs-test(cs-primary() cs-secondary() cs-tertiary() );*/
+
+$full-color: green;
+$on-color: blue;
+$teach-color: magenta;
+$off-color: red;
 
 $zelena:  #55AA55;
 
@@ -76,6 +88,16 @@ body {
     max-width: 60em;
     line-height: normal;
     padding: 0px 20px;
+}
+
+a {
+    color: cs-secondary();
+}
+a:hover {
+    color: cs-tertiary();
+}
+strong {
+   font-weight: bold;
 }
 
 header {
@@ -216,6 +238,23 @@ footer {
     margin-top: 2.5em;
 }
 
+#full::before {
+    content: "⛊";
+    color: green;
+}
+
+#on::before {
+    @extend #full::before;
+    color: blue;
+}
+#teach::before {
+    @extend #full;
+    color: magenta;
+}
+#off::before {
+    @extend #full;
+    color: red;
+}
 
 
 /*-----------------------------------------------------------------------------
