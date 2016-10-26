@@ -101,6 +101,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   box-sizing: border-box; }
 
 body {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   margin-left: auto;
   margin-right: auto;
   font-family: "Lora", Georgia, "DejaVu Serif", serif;
@@ -108,6 +111,10 @@ body {
   max-width: 60em;
   line-height: normal;
   padding: 0px 20px; }
+  body:after {
+    content: " ";
+    display: block;
+    clear: both; }
 
 a {
   color: #ef8900; }
@@ -115,24 +122,32 @@ a {
 a:hover {
   color: #ef4400; }
 
+em {
+  font-variant: small-caps; }
+
 strong {
   font-weight: bold; }
+
+p {
+  margin-top: 2ex;
+  margin-bottom: 2ex; }
 
 header {
   margin-top: 0; }
   header h1 {
     font-size: 2.2em;
     margin-top: 4px;
+    margin-bottom: 4px;
     display: inline-block;
-    width: 15.83333%;
+    width: 24.16667%;
     float: left;
     margin-left: 0.41667%;
     margin-right: 0.41667%; }
     header h1 a {
       text-decoration: none;
-      border-right: solid 2px #EF6C00;
-      border-bottom: solid 2px #EF6C00;
-      padding: 0.5ex 1ex; }
+      /*border-right: solid 2px $oranzova;*/
+      /*border-bottom: solid 2px $oranzova;*/
+      padding: 0.5ex 1ex 0.5ex 0px; }
   header nav {
     width: 74.16667%;
     float: right;
@@ -150,7 +165,8 @@ header {
       padding: 20px 22px 10px;
       font-weight: bold;
       color: #EF6C00;
-      background-color: #f7f7f7; }
+      background-color: #f7f7f7;
+      text-decoration: none; }
     header li a:hover {
       color: white;
       background-color: #EF6C00; }
@@ -289,10 +305,31 @@ dd {
 .error-field {
   border: solid 3px red; }
 
+.logo {
+  width: 261px;
+  margin-left: auto;
+  margin-right: auto;
+  /*float: right;*/ }
+
+.intro {
+  width: 40.83333%;
+  float: left;
+  margin-left: 0.41667%;
+  margin-right: 0.41667%;
+  margin: 3.33333%;
+  height: 12em;
+  overflow: auto;
+  /*border: 1px cs-secondary() solid;*/ }
+
+.global {
+  width: 57.5%;
+  margin-left: auto;
+  margin-right: auto; }
+
 footer {
   margin-top: 2.5em; }
 
-#full::before, #on::before, #teach::before, #off::before {
+#full::before, #on::before, #teach::before, #off::before, #globalni-nastaveni::before {
   content: "⛊";
   color: green; }
 
@@ -305,6 +342,45 @@ footer {
 #off::before {
   color: red; }
 
+#globalni-nastaveni::before {
+  color: #FFE24F; }
+
+ul.messages {
+  margin: 1ex 11.66667%;
+  padding: 0px; }
+  ul.messages li {
+    padding: 1ex 1em;
+    list-style-type: none;
+    margin: 1ex 0px;
+    border: #ef8900 solid 3px;
+    -moz-border-radius-topleft: 40px;
+    -webkit-border-top-left-radius: 40px;
+    border-top-left-radius: 40px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -moz-border-radius-bottomleft: 15px;
+    -webkit-border-bottom-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    -moz-border-radius-bottomright: 30px;
+    -webkit-border-bottom-right-radius: 30px;
+    border-bottom-right-radius: 30px; }
+
+@media screen and (max-width: 790px) {
+  .intro {
+    width: 82.5%;
+    float: left;
+    margin-left: 0.41667%;
+    margin-right: 0.41667%;
+    height: auto;
+    margin: 1em; }
+
+  .global {
+    width: 82.5%;
+    float: left;
+    margin-left: 0.41667%;
+    margin-right: 0.41667%;
+    margin: 1em; } }
 /*-----------------------------------------------------------------------------
 vim:nowrap:
 */

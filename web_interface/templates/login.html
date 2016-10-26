@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+{%- set title = 'LogIn'  -%}
 
 {% block content %}
 
  <div class="login">
   <h2>Přihlášení</h2>
+{% if not current_user.is_authenticated %}
   <form action="" method="post" name="login">
       {{ form.hidden_tag() }}
       <table>
@@ -49,6 +51,10 @@
         </tr>
       </table>
   </form>
+{%- else -%}
+  <p>Ty už jsi přihlášený!</p>
+  <p><a href="{{ url_for('logout') }}">Odhlásit</a></p>
+{%- endif -%}
  </div>
 
 {% endblock content %}

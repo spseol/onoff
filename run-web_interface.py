@@ -10,9 +10,9 @@ PORT = 7777
 if len(sys.argv) > 1:
     # Run web public server
     if len(sys.argv) > 2 and sys.argv[2].lower() == 'debug':
-        debug=True
+        debug = True
     else:
-        debug=False
+        debug = False
 
     try:
         PORT = int(sys.argv[1])
@@ -46,7 +46,9 @@ if len(sys.argv) > 1:
     now = datetime.datetime.now()
     logger.info(now.strftime("%Y-%m-%d %H:%M:%S"))
     # Run web public server
-    app.run(host='0.0.0.0', port=PORT, debug=debug, threaded=True)
+    app.run(host='0.0.0.0', port=PORT, debug=debug,
+            # ssl_context='adhoc',
+            threaded=True)
 else:
     # Run web local server
     app.run(host='127.0.0.1', port=PORT, debug=True)

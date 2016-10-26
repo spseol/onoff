@@ -13,7 +13,7 @@
   <link rel="stylesheet"    
         href="{{ url_for('static', filename='styles.css') }}">
   <link rel="shortcut icon"
-        href="{{ url_for('static', filename='favico.png') }}" />
+        href="{{ url_for('static', filename='logo-ico.png') }}" />
 
   <!--[if IE]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -24,7 +24,10 @@
 {%block body%}
 
   <header>
-    <h1><a href="{{url_for('index')}}">On/Off</a></h1>
+    <h1><a href="{{url_for('index')}}">
+        <img src="{{ url_for('static', filename='logo-thumb.png') }}"
+             width="40" height="46"> On/Off</a>
+    </h1>
     <nav>
       <ul>
         <li><a href="{{url_for('place', lab='LP1')}}">LP1</a></li>
@@ -45,8 +48,10 @@
   <main>
 
 {% if current_user.is_authenticated %}
+<p>
 <strong>uživatel:</strong> {{ current_user.name }}, 
 <strong>role:</strong> {{ current_user.role_name }}
+</p>
 {% endif %}
 
 
@@ -65,22 +70,54 @@
 
 
     {%block content%} {% filter markdown %}
+
+<img src="{{ url_for('static', filename='logo-med.png') }}"
+     width="261" height="298">
+{:.logo}
+
+<div markdown="1" class="intro">
 Full
 =============
 
 V tomto režimu je vše zapnuté. Nejsou blokovány žádné weby ani žádné porty.
+</div>
 
-On <span class="on-color"></span>
+<div markdown="1" class="intro">
+On 
 =============
 
-Teach <span class="teach-color"></span>
+Většina webů je povolena některé jsou zakázány. Nejsou blokovány žádné porty.
+</div>
+
+<div markdown="1" class="intro">
+Teach 
 =============
 
-Off <span class="off-color"></span>
+Jsou povoleny jen některé webové stránky. Kromě webu jsou blokována všechna 
+další odchozí i příchozí spojení.
+</div>
+
+<div markdown="1" class="intro">
+Off 
 =============
 
 V tomto režimu je vše vypnuté. Nelze zobrazit žádnou webovou stránku a
-jsou blokována všechna **odchozí** i **příchozí** spojení.
+jsou blokována všechna odchozí i příchozí spojení.
+</div>
+
+<div markdown="1" class="global">
+Globální nastavení 
+=============
+
+Navíc nad tímto vším, nezávisle na zvoleném režimu, lze povolovat nebo
+zakazovat komunikaci na vybraných portech. Tato pravidla mají přednost před
+ostatními pravidly.
+
+Toto má význam hlavně pro výuku sítí, kdy je například potřeba povolit SSH nebo
+FTP, ale zachovat přitom pravidla režimu *Teach* nebo *Off*.
+</div>
+
+
 
     {% endfilter %} {%endblock content%}
 
@@ -106,8 +143,6 @@ jsou blokována všechna **odchozí** i **příchozí** spojení.
       <dd><a href="http://susy.oddbird.net/">Susy</a></dd>
     </dl>
   </footer>
-
-
 {%endblock body%}
 </body>
 </html>

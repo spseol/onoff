@@ -1,10 +1,11 @@
-from flask import (render_template, flash, redirect, url_for, request)
-from web_interface import app
+from flask import (render_template, flash, redirect, url_for, request,
+                   Markup)
+from . import app, login_manager
 from .forms import LoginForm
 from flask_login import (login_user, logout_user, current_user, login_required)
 from .models import User
 from pony.orm import db_session
-from . import login_manager
+from radius import RADIUS
 ############################################################################
 
 
@@ -28,31 +29,43 @@ def index():
 def place(lab):
     if "LP" in lab:
         flash(lab, 'noerror')
+    if "1" in lab:
+        flash("Jednička")
     return render_template('base.html')
 
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
+    def sorry():
+        flash(':-( Sorry, ale nepodařilo se mi tě ověřit.')
+    if current_user.is_authenticated:
+        flash(Markup('Už jsi přihlášen! <a href="{}">Odhlásit</a>'
+                     ''.format(url_for('logout'))))
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
         name = form.name.data
-        # passwd = form.passwd.data
+        passwd = form.passwd.data
         with db_session:
             user = User.get(name=name)
         if user:
-            login_user(user)
-            flash("Právě jsi se přihlásil!")
-            next = request.args.get('next')
-            if next:
-                return redirect(next)
-            else:
-                return redirect(url_for('index'))
-        else:
-            flash("Asi nějaká chybička :-(")
+            rad = RADIUS(app.config['RAD_SECRET'],
+                         app.config['RAD_SERVER'],
+                         app.config['RAD_PORT'])
+            if rad.authenticate(name.encode('ascii'), passwd.encode('ascii')):
+                login_user(user, remember=form.remember_me.data)
+                flash("Právě jsi se přihlásil!")
+                next = request.args.get('next')
+                if next:
+                    return redirect(next)
+                else:
+                    return redirect(url_for('index'))
+            else:  # špatné heslo
+                sorry()
+        else:  # neoprávněný uživatel
+            sorry()
             return redirect(url_for('login'))
-    return render_template('login.html',
-                           title='LogIn',
-                           form=form)
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout')

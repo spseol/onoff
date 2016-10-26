@@ -8,8 +8,6 @@
 from web_interface.models import User, Role
 from pony.orm import db_session
 
-# db.generate_mapping(create_tables=False)
-
 admins = 'nozka burda vakri kolar'.split()
 teachers = 'stejskal sovakova gebova baranek vesela'.split()
 

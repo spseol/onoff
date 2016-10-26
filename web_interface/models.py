@@ -1,4 +1,4 @@
-from web_interface import app
+from . import app
 
 from datetime import datetime
 from pony.orm import (Database,
@@ -20,8 +20,9 @@ class Loginlog(db.Entity):
     id = PrimaryKey(int, auto=True)
     name = Required(str)
     time = Required(datetime)
-    # None znamená korektní přihlášení
+    address = Required(str)
     wrong_passwd = Optional(str, nullable=True, default=None)
+    # None znamená korektní přihlášení
 
 
 class Policy(db.Entity):
@@ -98,6 +99,3 @@ class Port(db.Entity):
     force = Required(bool, default=0)
     alive = Required(bool, default=1)
     composite_key(number, host)
-
-
-db.generate_mapping(create_tables=False)
