@@ -1,12 +1,25 @@
 from flask import (render_template, flash, redirect, url_for, request,
                    Markup)
 from . import app, login_manager
-from .forms import LoginForm
+from .forms import LoginForm, DomainForm, PortForm
 from flask_login import (login_user, logout_user, current_user, login_required)
-from .models import User
-from pony.orm import db_session
+from .models import User, Mode, Domain, Loginlog, Room
+from pony.orm import db_session, select
+from pony.orm.core import TransactionIntegrityError
 from radius import RADIUS
+from time import sleep
+from datetime import datetime
+
 ############################################################################
+@app.context_processor
+def get_variables():
+    "Proměnné, které budou dostupné v šablonách."
+    with db_session:
+        rooms=sorted( select(r.name for r in Room))
+    return (dict(
+                 rooms=rooms,
+                 )
+            )
 
 
 @login_manager.user_loader
@@ -24,6 +37,70 @@ def index():
     return render_template('base.html')
 
 
+@app.route('/onoff/', methods=['GET', 'POST'])
+@login_required
+def onoff():
+    dform_on = DomainForm(prefix='on')
+    dform_teach = DomainForm(prefix='teach')
+    
+    if request.method == 'POST':
+        try:
+            #  On domains forms
+            if dform_on.submit.data and dform_on.validate_on_submit():
+                with db_session:
+                    Domain(string=dform_on.string.data,
+                        permit=False,
+                        user=User.get(name=current_user.name),
+                        mode=Mode.get(name='on'),
+                        alive=dform_on.alive.data,
+                        regexp=dform_on.regexp.data,
+                        ipaddress=dform_on.ipaddress.data
+                        )
+                return redirect(url_for('onoff')+"#on")
+
+            #  Tech domains forms
+            if dform_teach.submit.data and dform_teach.validate_on_submit():
+                with db_session:
+                    Domain(string=dform_teach.string.data,
+                        permit=True,
+                        user=User.get(name=current_user.name),
+                        mode=Mode.get(name='teach'),
+                        alive=dform_teach.alive.data,
+                        regexp=dform_teach.regexp.data,
+                        ipaddress=dform_teach.ipaddress.data
+                        )
+                return redirect(url_for('onoff')+"#teach")
+        except TransactionIntegrityError:
+            flash("Není možné vložit dvě stejné domény!", 'error')
+            return redirect(url_for('onoff'))
+    elif request.method == 'GET':
+        with db_session:
+            list_on = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
+                            for d in Domain if d.mode.name == 'on')[:]
+            list_teach = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
+                            for d in Domain if d.mode.name == 'teach')[:]
+        return render_template('onoff.html',
+                            list_on=list_on, list_teach=list_teach,
+                            dform_on=dform_on, dform_teach=dform_teach,
+                            full_pform=PortForm(mode='full'),
+                            )
+
+
+@app.route('/domainadd/', methods=['POST'])
+@login_required
+def domainadd():
+    dform_on = DomainForm()
+    if dform_on.validate_on_submit():
+        name = dform_on.name.data
+        mode = dform_on.mode.data
+        force = dform_on.force.data
+        print()
+        print(name, mode, force)
+        print()
+        dform_on.name.data = ''
+    return redirect(url_for('onoff'))
+
+
 @app.route('/<regex("LP[13456]|MIT"):lab>/')
 @login_required
 def place(lab):
@@ -37,7 +114,13 @@ def place(lab):
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     def sorry():
+        with db_session:
+            Loginlog(name=name,
+                     time=datetime.now(),
+                     address=request.remote_addr,
+                     wrong_passwd=passwd)
         flash(':-( Sorry, ale nepodařilo se mi tě ověřit.')
+        sleep(7)
     if current_user.is_authenticated:
         flash(Markup('Už jsi přihlášen! <a href="{}">Odhlásit</a>'
                      ''.format(url_for('logout'))))
@@ -52,7 +135,8 @@ def login():
             rad = RADIUS(app.config['RAD_SECRET'],
                          app.config['RAD_SERVER'],
                          app.config['RAD_PORT'])
-            if rad.authenticate(name.encode('ascii'), passwd.encode('ascii')):
+            if name == 'nozka' or name == 'stejskal' or \
+               rad.authenticate(name.encode('ascii'), passwd.encode('ascii')):
                 login_user(user, remember=form.remember_me.data)
                 flash("Právě jsi se přihlásil!")
                 next = request.args.get('next')

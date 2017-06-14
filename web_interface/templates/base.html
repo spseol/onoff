@@ -1,6 +1,5 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="cs">
-<head>
   {% if title %}
     <title>On/Off: {{ title }}</title>
   {% else %}
@@ -26,18 +25,15 @@
   <header>
     <h1><a href="{{url_for('index')}}">
         <img src="{{ url_for('static', filename='logo-thumb.png') }}"
-             width="40" height="46"> On/Off</a>
+             width="40" height="46" alt=""> On/Off</a>
     </h1>
     <nav>
       <ul>
-        <li><a href="{{url_for('place', lab='LP1')}}">LP1</a></li>
-        <li><a href="{{url_for('place', lab='LP3')}}">LP3</a></li>
-        <li><a href="{{url_for('place', lab='LP4')}}">LP4</a></li>
-        <li><a href="{{url_for('place', lab='LP5')}}">LP5</a></li>
-        <li><a href="{{url_for('place', lab='LP6')}}">LP6</a></li>
-        <li><a href="{{url_for('place', lab='MIT')}}">MIT</a></li>
+        {%- for lab in rooms -%}
+        <li><a href="{{url_for('place', lab=lab)}}">{{lab}}</a></li>
+        {%- endfor -%}
 
-        <li><a href="{{url_for('index')}}" title="Nastavení!" 
+        <li><a href="{{url_for('onoff')}}" title="Nastavení!" 
                class="logout">&#10000;</a></li>
         <li><a href="{{url_for('logout')}}" title="Odhlásit se!" 
                class="logout">&#10008;</a></li>
@@ -71,11 +67,20 @@
 
     {%block content%} {% filter markdown %}
 
-<img src="{{ url_for('static', filename='logo-med.png') }}"
-     width="261" height="298">
-{:.logo}
+<div id="logo">
+  <img src="{{ url_for('static', filename='logo-med.png') }}" 
+       width="261" height="298" />
+  <img src="{{ url_for('static', filename='logo2-med.png') }}" 
+       width="261" height="298" />
+</div>
+
+<div markdown="1" class="global">
+**Každý uživatel si volí pro jednotlivé režimy svůj seznam povolený nebo zakázaných domén nebo portů.**
+
+</div>
 
 <div markdown="1" class="intro">
+
 Full
 =============
 
@@ -109,12 +114,13 @@ jsou blokována všechna odchozí i příchozí spojení.
 Globální nastavení 
 =============
 
-Navíc nad tímto vším, nezávisle na zvoleném režimu, lze povolovat nebo
+Navíc nad tímto vším, (ne)závisle na zvoleném režimu, lze povolovat nebo
 zakazovat komunikaci na vybraných portech. Tato pravidla mají přednost před
 ostatními pravidly.
 
 Toto má význam hlavně pro výuku sítí, kdy je například potřeba povolit SSH nebo
 FTP, ale zachovat přitom pravidla režimu *Teach* nebo *Off*.
+
 </div>
 
 
@@ -124,24 +130,91 @@ FTP, ale zachovat přitom pravidla režimu *Teach* nebo *Off*.
 		</article>
 	
 	</main>
-
-
   <footer>
-  <hr />
-    <dl><dt>Powered by:</dt>
-      <dd><a href="http://python.org">Python</a></dd> 
-      <dd><a href="http://flask.pocoo.org/">Flask</a></dd> 
-      <dd><a href="http://www.spseol.cz">VOŠ a SPŠE Olomouc</a></dd>
-    </dl>
-    <dl><dt>Look here:</dt>
-      <dd><a href="https://docs.python.org/3/">Python documentation</a></dd>
-      <dd><a href="http://flask.pocoo.org/docs">Flask documentation</a></dd>
-      <dd><a href="http://jinja.pocoo.org/docs/templates/">Jinja2
-                                                             templates</a></dd>
-      <dd><a href="http://sass-lang.com/">Sass lang</a></dd>
-      <dd><a href="http://compass-style.org/">Compass </a></dd>
-      <dd><a href="http://susy.oddbird.net/">Susy</a></dd>
-    </dl>
+  <p>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </p>
+  <p id="marek">Vytvořil <a href="#">Marek Nožka</a> pro radost sobě 
+                a svým studentům.</p>
   </footer>
 {%endblock body%}
 </body>

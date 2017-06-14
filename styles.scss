@@ -40,8 +40,8 @@ $oranzova: #EF6C00;
 $cs-primary: $oranzova;
 $cs-scheme: 'accented-analogic';  // mono, complement, triad, tetrad, 
                                   // analogic, accented-analogic
-$cs-hue-offset: 15;
-$cs-brightness-offset: 10;
+$cs-hue-offset: 20;
+$cs-brightness-offset: 20;
 $cs-color-model: ryb;  // rgb, ryb
 
 /*@include cs-test(cs-primary() cs-secondary() cs-tertiary() );*/
@@ -109,6 +109,18 @@ p {
     margin-top: 2ex;
     margin-bottom: 2ex;
 }
+
+.nastaveni {
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    td, th {
+        padding: 1ex;
+    }
+}
+
 
 header {
     margin-top: 0;
@@ -183,6 +195,7 @@ h3 {
 }
 h4 {
     font-size: 1.3em;
+    color: cs-secondary()
 }
 h5 {
     font-size: 1.15em;
@@ -246,11 +259,32 @@ dd {
     border: solid 3px red;
 }
 
-.logo {
+#logo {
     width: 261px;
+    height: 298px;
     margin-left: auto;
     margin-right: auto;
-    /*float: right;*/
+    position: relative;
+    img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        @include transition(2400ms linear);
+    }
+    img:first-child {
+        opacity: 0;
+    }
+    img:last-child {
+        opacity: 1;
+    }
+}
+#logo:hover{
+    img:first-child {
+        opacity: 1;
+    }
+    img:last-child {
+        opacity: 0;
+    }
 }
 
 .intro {
@@ -295,6 +329,20 @@ footer {
 ul.messages {
     margin: 1ex span(3);
     padding: 0px;
+    li.error::before {
+        position: relative;
+        top: -1em;
+        left: -1em;
+        background-color: red;
+        color: white; 
+        font-weight: bold;
+        padding: 0.5ex;
+        content: "Chyba";
+        @include border-radius(10px);
+    }
+    li.error {
+        border: red solid 3px;
+    }
     li {
         padding: 1ex 1em;
         list-style-type: none;
@@ -307,6 +355,23 @@ ul.messages {
     }
 }
 
+
+.bar {
+    display: inline-block;
+    width: calc(100% / 80);
+    background-color: cs-secondary();
+    float: left;
+    border: white 1px solid;
+}
+@for $i from 1 through 80 {
+    .bar:nth-child(#{$i}) {
+        height: 7 + random(123) + px
+    }
+}
+#marek {
+    text-align: center;
+    clear: both;
+}
 
 @media screen and (max-width: 790px) {
 .intro {

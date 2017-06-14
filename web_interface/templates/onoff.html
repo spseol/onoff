@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{%- set title = 'Nastavení' -%}
+
+
+{%- macro add_domain(form)-%}
+  <form method="post"> 
+    <table class"adddomain">
+      <tr>
+        <th>doména</th>
+        <th>aktivní</th>
+        <th>regExp</th>
+        <th>IP</th>
+      </tr>
+      <tr>
+        <td>
+          {%- with -%}
+          {%-   if form.string.errors|count > 0 -%}
+          {%-     set field_class = "error-field" -%}
+          {%-   else -%}
+          {%-     set field_class = "ok" -%}
+          {%-   endif -%}
+          {%-   for error in form.string.errors -%}
+            <span style="color: red; font-size:80%;">{{ error }}</span><br/>
+          {%-   endfor -%}
+          {{ form.string(size=44, class=field_class) }}
+          {%- endwith -%}
+        </td>
+        <td>{{form.alive()}}</td>
+        <td>{{form.regexp()}}</td>
+        <td>{{form.ipaddress()}}</td>
+        <td>{{ form.hidden_tag() }} {{form.submit()}}</td>
+      </tr>
+    </table>
+  </form>
+{%- endmacro -%}
+
+
+{%- macro list_domain(dlist) -%}
+{%- endmacro -%}
+
+
+{% block content %}
+  <h2>Domény</h2>
+  <div class="nastaveni">
+    <h3 id="on">On -- seznam zakázaných domén</h3>
+
+    <table>
+      {%- for id, string, alive, regexp, ipaddressin in list_on -%}
+      <tr>
+        <td>{{string}}</td>
+      </tr>
+      {%- endfor -%}
+    </table>
+
+    <h4>Přidat doménu</h4>
+
+    {{ add_domain(dform_on) }}
+
+    <h3 id="teach">Teach -- seznam povolených domén</h3>
+
+    <table>
+      {%- for id, string, alive, regexp, ipaddress in list_teach -%}
+      <tr>
+        <td>{{string}}</td>
+      </tr>
+      {%- endfor -%}
+    </table>
+
+    <h4>Přidat doménu</h4>
+
+    {{ add_domain(dform_teach) }}
+
+
+    <h2 id="globalni-nastaveni">Globální nastavení</h2>
+        <p><strong>Sem makej jen, když víš co děláš.</strong></p>
+        <p>(Ne)Závisle na zvoleném režimu,
+        lze povolovat nebo zakazovat komunikaci na vybraných portech.
+        <strong>Tato pravidla mají přednost před ostatními pravidly.</strong></p>
+        <form method="post">
+        <table>
+            <caption>Porty:</caption>
+
+            <tr>
+                <th>port</th>
+                <th>povolit/zakázat</th>
+                <th>aktivní/neaktivní</th>
+                <th>pro všechny</th>
+            </tr>
+            <tr>
+
+                <td>{{ full_pform.number(size=5) }}</td>
+                <td>{{ full_pform.permit() }}</td>
+                <td>{{ full_pform.alive() }}</td>
+                <td>
+                    {%- if current_user.role_name == 'admin' -%}
+                        {{ full_pform.force() }}
+                    {%- endif -%}
+                </td>
+                <td><input type="submit" value="Přidat">
+                    {{ full_pform.hidden_tag() }}
+                </td>
+            </tr>
+        </table>
+        </form>
+
+
+
+    </div>
+{% endblock content %}

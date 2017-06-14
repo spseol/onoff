@@ -25,19 +25,19 @@ class Loginlog(db.Entity):
     # None znamená korektní přihlášení
 
 
-class Policy(db.Entity):
+class Station(db.Entity):
     """V jakém režimu je klientská stanice?"""
     id = PrimaryKey(int, auto=True)
-    host = Required(str)  # IP adresa klienta
+    address = Required(str, unique=True)  # IP adresa klienta
     mode = Required('Mode')
+    room = Required('Room')
 
 
 class Mode(db.Entity):
     """Full, On, Teach, Off"""
-    _table_ = 'Set'
     id = PrimaryKey(int, auto=True)
     name = Required(str)
-    policyes = Set(Policy, cascade_delete=True)
+    stations = Set(Station, cascade_delete=True)
     ports = Set('Port', cascade_delete=True)
     domains = Set('Domain')
 
@@ -45,14 +45,16 @@ class Mode(db.Entity):
 class Domain(db.Entity):
     """acl JMENO dstdomain"""
     id = PrimaryKey(int, auto=True)
-    name = Required(str)
-    permit = Optional(bool)
+    string = Required(str)
     mode = Required(Mode)
     user = Required('User')
-    force = Required(bool, default=0)  # pro všechny uživatele
-    alive = Required(bool, default=1)  # aktivní?
-    regexp = Required(bool, default=0)  # acl  JMENO url_regex -i
-    ipaddress = Required(bool, default=0)  # acl JMENO dst
+    alive = Required(bool, default=True)  # aktivní?
+    # admin může šahat do šablony a user má možnost si šablonu nakopírovat
+    template = Required(bool, default=False)  
+    regexp = Required(bool, default=False)  # acl  JMENO url_regex -i
+    ipaddress = Required(bool, default=False)  # acl JMENO dst
+    permit = Optional(bool)
+    composite_key(string, mode, user, template, regexp, ipaddress)
 
 
 class User(db.Entity):
@@ -99,3 +101,9 @@ class Port(db.Entity):
     force = Required(bool, default=0)
     alive = Required(bool, default=1)
     composite_key(number, host)
+
+
+class Room(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    name = Required(str)
+    stations = Set(Station)
