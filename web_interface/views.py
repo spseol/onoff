@@ -1,23 +1,25 @@
 from flask import (render_template, flash, redirect, url_for, request,
                    Markup)
 from . import app, login_manager
-from .forms import LoginForm, DomainForm, PortForm
+from .forms import (LoginForm, DomainForm, PortForm,
+                    AliveDeleteForm, ListAliveDeleteForm,
+                    ModeForm, ListModeForm)
 from flask_login import (login_user, logout_user, current_user, login_required)
-from .models import User, Mode, Domain, Loginlog, Room
+from .models import User, Mode, Domain, Loginlog, Room, Station
 from pony.orm import db_session, select
 from pony.orm.core import TransactionIntegrityError
-from radius import RADIUS
 from time import sleep
 from datetime import datetime
-
+from subprocess import call
 ############################################################################
+
+
 @app.context_processor
 def get_variables():
     "Proměnné, které budou dostupné v šablonách."
     with db_session:
-        rooms=sorted( select(r.name for r in Room))
-    return (dict(
-                 rooms=rooms,
+        rooms = sorted(select(r.name for r in Room))
+    return (dict(rooms=rooms,
                  )
             )
 
@@ -42,73 +44,130 @@ def index():
 def onoff():
     dform_on = DomainForm(prefix='on')
     dform_teach = DomainForm(prefix='teach')
-    
-    if request.method == 'POST':
-        try:
-            #  On domains forms
-            if dform_on.submit.data and dform_on.validate_on_submit():
-                with db_session:
-                    Domain(string=dform_on.string.data,
-                        permit=False,
-                        user=User.get(name=current_user.name),
-                        mode=Mode.get(name='on'),
-                        alive=dform_on.alive.data,
-                        regexp=dform_on.regexp.data,
-                        ipaddress=dform_on.ipaddress.data
-                        )
-                return redirect(url_for('onoff')+"#on")
 
-            #  Tech domains forms
-            if dform_teach.submit.data and dform_teach.validate_on_submit():
-                with db_session:
-                    Domain(string=dform_teach.string.data,
-                        permit=True,
-                        user=User.get(name=current_user.name),
-                        mode=Mode.get(name='teach'),
-                        alive=dform_teach.alive.data,
-                        regexp=dform_teach.regexp.data,
-                        ipaddress=dform_teach.ipaddress.data
-                        )
-                return redirect(url_for('onoff')+"#teach")
-        except TransactionIntegrityError:
-            flash("Není možné vložit dvě stejné domény!", 'error')
-            return redirect(url_for('onoff'))
-    elif request.method == 'GET':
+    try:
+        #  On domains forms
+        if dform_on.submit.data and dform_on.validate_on_submit():
+            with db_session:
+                Domain(string=dform_on.string.data,
+                       permit=False,
+                       user=User.get(name=current_user.name),
+                       mode=Mode.get(name='On'),
+                       alive=dform_on.alive.data,
+                       regexp=dform_on.regexp.data,
+                       ipaddress=dform_on.ipaddress.data
+                       )
+            return redirect(url_for('onoff')+"#on")
+
+        #  Tech domains forms
+        if dform_teach.submit.data and dform_teach.validate_on_submit():
+            with db_session:
+                Domain(string=dform_teach.string.data,
+                       permit=True,
+                       user=User.get(name=current_user.name),
+                       mode=Mode.get(name='Teach'),
+                       alive=dform_teach.alive.data,
+                       regexp=dform_teach.regexp.data,
+                       ipaddress=dform_teach.ipaddress.data
+                       )
+            return redirect(url_for('onoff')+"#teach")
+    except TransactionIntegrityError:
+        flash("Není možné vložit dvě stejné domény!", 'error')
+        return redirect(url_for('onoff'))
+
+    lform_on = ListAliveDeleteForm(prefix='on')
+    lform_teach = ListAliveDeleteForm(prefix='teach')
+
+    # On vymazání domén
+    if lform_on.validate_on_submit() and lform_on.deleteBtn.data:
         with db_session:
-            list_on = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
-                            for d in Domain if d.mode.name == 'on')[:]
-            list_teach = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
-                            for d in Domain if d.mode.name == 'teach')[:]
-        return render_template('onoff.html',
-                            list_on=list_on, list_teach=list_teach,
-                            dform_on=dform_on, dform_teach=dform_teach,
-                            full_pform=PortForm(mode='full'),
-                            )
+            for subform in lform_on.switches:
+                if subform.delete.data:
+                    Domain[subform.table_id.data].delete()
+        return redirect(request.path+'#on')
+    # Teach vymazání domén
+    if lform_teach.validate_on_submit() and lform_teach.deleteBtn.data:
+        with db_session:
+            for subform in lform_teach.switches:
+                if subform.delete.data:
+                    Domain[subform.table_id.data].delete()
+        return redirect(request.path+'#teach')
+
+    # On Aktivace/Deaktivace
+    if lform_on.validate_on_submit() and lform_on.aliveBtn.data:
+        with db_session:
+            for subform in lform_on.switches:
+                if subform.alive.data:
+                    Domain[subform.table_id.data].alive = True
+                else:
+                    Domain[subform.table_id.data].alive = False
+        return redirect(request.path+'#on')
+    # Teach Aktivace/Deaktivace
+    if lform_teach.validate_on_submit() and lform_teach.aliveBtn.data:
+        with db_session:
+            for subform in lform_teach.switches:
+                if subform.alive.data:
+                    Domain[subform.table_id.data].alive = True
+                else:
+                    Domain[subform.table_id.data].alive = False
+        return redirect(request.path+'#teach')
+
+    with db_session:
+        list_on = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
+                         for d in Domain if d.mode.name == 'On')[:]
+        list_teach = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
+                            for d in Domain if d.mode.name == 'Teach')[:]
+
+    for table_id, string, alive, regexp, ipaddress in list_on:
+        switch = AliveDeleteForm()
+        switch.table_id = table_id
+        switch.alive = alive
+        switch.regexp = regexp
+        switch.ipaddress = ipaddress
+        switch.delete = False
+        switch.string = string
+        lform_on.switches.append_entry(switch)
+
+    for table_id, string, alive, regexp, ipaddress in list_teach:
+        switch = AliveDeleteForm()
+        switch.table_id = table_id
+        switch.alive = alive
+        switch.regexp = regexp
+        switch.ipaddress = ipaddress
+        switch.delete = False
+        switch.string = string
+        lform_teach.switches.append_entry(switch)
+
+    return render_template('setings.html',
+                           lform_on=lform_on, lform_teach=lform_teach,
+                           dform_on=dform_on, dform_teach=dform_teach,
+                           full_pform=PortForm(mode='full'),
+                           )
 
 
-@app.route('/domainadd/', methods=['POST'])
-@login_required
-def domainadd():
-    dform_on = DomainForm()
-    if dform_on.validate_on_submit():
-        name = dform_on.name.data
-        mode = dform_on.mode.data
-        force = dform_on.force.data
-        print()
-        print(name, mode, force)
-        print()
-        dform_on.name.data = ''
-    return redirect(url_for('onoff'))
-
-
-@app.route('/<regex("LP[13456]|MIT"):lab>/')
+@app.route('/<regex("LP[13456]|MIT"):lab>/', methods=['GET', 'POST'])
 @login_required
 def place(lab):
-    if "LP" in lab:
-        flash(lab, 'noerror')
-    if "1" in lab:
-        flash("Jednička")
-    return render_template('base.html')
+    form = ListModeForm()
+
+    if form.validate_on_submit():
+        with db_session:
+            for subform in form.switches:
+                mode = Mode.get(name=subform.mode.data.capitalize())
+                Station[subform.table_id.data].mode = mode
+        call(['sudo', '/home/marek/weby/onoff/make_squid_conf.sh',
+              current_user.name, lab])
+        return redirect(request.path)
+
+    with db_session:
+        for station in select(s for s in Station if s.room.name == lab):
+            switch = ModeForm()
+            switch.table_id = station.id
+            switch.address = station.address
+            switch.mode = station.mode.name.lower()
+            form.switches.append_entry(switch)
+
+    return render_template('lab.html', lab=lab, form=form)
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -132,11 +191,7 @@ def login():
         with db_session:
             user = User.get(name=name)
         if user:
-            rad = RADIUS(app.config['RAD_SECRET'],
-                         app.config['RAD_SERVER'],
-                         app.config['RAD_PORT'])
-            if name == 'nozka' or name == 'stejskal' or \
-               rad.authenticate(name.encode('ascii'), passwd.encode('ascii')):
+            if name == 'nozka' or name == 'stejskal':
                 login_user(user, remember=form.remember_me.data)
                 flash("Právě jsi se přihlásil!")
                 next = request.args.get('next')

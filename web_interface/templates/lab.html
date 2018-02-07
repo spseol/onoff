@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h2>Laboratoř: {{lab}}</h2>
+
+  <form method="post">
+    {{ form.hidden_tag() }}
+
+    {{ form.submit() }}
+    <div></div>
+    {% for subform in form.switches %}
+      {{ subform.hidden_tag() }}
+      <h3 class="ip">{{ subform.address.data[-2:] }}</h3>
+      {{ subform.mode(class='radio') }}
+    {% endfor %}
+    {{ form.submit() }}
+  </form>
+
+{% endblock %}

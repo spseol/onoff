@@ -1,6 +1,7 @@
 from . import app
 
 from datetime import datetime
+from uuid import UUID
 from pony.orm import (Database,
                       PrimaryKey,
                       Optional,
@@ -14,10 +15,12 @@ db = Database("postgres",
               database=app.config['PG_DB'],
               password=app.config['PG_PASSWD'])
 
+# db = Database("sqlite", "db.sql")
+
 
 class Loginlog(db.Entity):
     """Logging korektních a nekorektních přihlášení"""
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(UUID, auto=True)
     name = Required(str)
     time = Required(datetime)
     address = Required(str)
@@ -27,7 +30,7 @@ class Loginlog(db.Entity):
 
 class Station(db.Entity):
     """V jakém režimu je klientská stanice?"""
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(UUID, auto=True)
     address = Required(str, unique=True)  # IP adresa klienta
     mode = Required('Mode')
     room = Required('Room')
@@ -44,7 +47,7 @@ class Mode(db.Entity):
 
 class Domain(db.Entity):
     """acl JMENO dstdomain"""
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(UUID, auto=True)
     string = Required(str)
     mode = Required(Mode)
     user = Required('User')
@@ -59,7 +62,7 @@ class Domain(db.Entity):
 
 class User(db.Entity):
     """Uživatelé mají role a mohou zakazovat nebo povolovat domény."""
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(UUID, auto=True)
     name = Required(str, unique=True)
     role = Required('Role')
     domains = Set(Domain)
@@ -86,13 +89,13 @@ class User(db.Entity):
 
 class Role(db.Entity):
     """admin, user, teacher"""
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(UUID, auto=True)
     name = Required(str, unique=True)
     users = Set(User)
 
 
 class Port(db.Entity):
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(UUID, auto=True)
     number = Required(int, nullable=True)
     host = Required(str, nullable=True)
     permit = Required(bool)
@@ -104,6 +107,6 @@ class Port(db.Entity):
 
 
 class Room(db.Entity):
-    id = PrimaryKey(int, auto=True)
+    id = PrimaryKey(UUID, auto=True)
     name = Required(str)
     stations = Set(Station)

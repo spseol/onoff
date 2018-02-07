@@ -5,7 +5,7 @@
 from web_interface import app
 import sys
 
-PORT = 56789
+PORT = 7777
 
 if len(sys.argv) > 1:
     # Run web public server

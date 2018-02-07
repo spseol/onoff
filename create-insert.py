@@ -11,7 +11,7 @@ from pony.orm import db_session
 admins = 'nozka burda vakri kolar'.split()
 teachers = 'stejskal sovakova gebova baranek vesela babicka duda'.split()
 
-modes = 'full on teach off'.split()
+modes = 'Full On Teach Off'.split()
 
 rooms = 'LP1 LP3 LP4 LP5 LP6 MIT'.split()
 
@@ -27,39 +27,44 @@ with db_session:
     for name in modes:
         exec('{} = Mode.get(name=name) or Mode(name=name)'.format(name))
 
-
-    room_name='LP1'
+    room_name = 'LP1'
     room = Room.get(name=room_name) or Room(name=room_name)
     for i in range(16):
-        IP='172.16.1.{}'.format(101+i)
-        s = Station.get(address=IP) or Station(address=IP, room=room, mode=full)
+        IP = '172.16.1.{}'.format(101+i)
+        s = Station.get(address=IP) or \
+            Station(address=IP, room=room, mode=Full)
 
-    room_name='LP3'
+    room_name = 'LP3'
     room = Room.get(name=room_name) or Room(name=room_name)
     for i in range(16):
-        IP='172.16.3.{}'.format(101+i)
-        s = Station.get(address=IP) or Station(address=IP, room=room, mode=full)
+        IP = '172.16.3.{}'.format(101+i)
+        s = Station.get(address=IP) or \
+            Station(address=IP, room=room, mode=Full)
 
-    room_name='LP4'
+    room_name = 'LP4'
     room = Room.get(name=room_name) or Room(name=room_name)
     for i in range(11):
-        IP='172.16.4.{}'.format(101+i)
-        s = Station.get(address=IP) or Station(address=IP, room=room, mode=full)
+        IP = '172.16.4.{}'.format(101+i)
+        s = Station.get(address=IP) or \
+        Station(address=IP, room=room, mode=Full)
 
-    room_name='LP5'
+    room_name = 'LP5'
     room = Room.get(name=room_name) or Room(name=room_name)
     for i in range(11):
-        IP='172.16.5.{}'.format(101+i)
-        s = Station.get(address=IP) or Station(address=IP, room=room, mode=full)
+        IP = '172.16.5.{}'.format(101+i)
+        s = Station.get(address=IP) or \
+            Station(address=IP, room=room, mode=Full)
 
-    room_name='LP6'
+    room_name = 'LP6'
     room = Room.get(name=room_name) or Room(name=room_name)
-    for i in list(range(11)) + list(range(20,25)):
-        IP='172.16.6.{}'.format(101+i)
-        s = Station.get(address=IP) or Station(address=IP, room=room, mode=full)
+    for i in range(16):
+        IP = '172.16.6.{}'.format(101+i)
+        s = Station.get(address=IP) or \
+            Station(address=IP, room=room, mode=Full)
 
-    room_name='MIT'
+    room_name = 'MIT'
     room = Room.get(name=room_name) or Room(name=room_name)
     for i in range(11):
-        IP='172.16.7.{}'.format(101+i)
-        s = Station.get(address=IP) or Station(address=IP, room=room, mode=full)
+        IP = '172.16.7.{}'.format(101+i)
+        s = Station.get(address=IP) or \
+            Station(address=IP, room=room, mode=Full)

@@ -8,4 +8,4 @@
 
 cd $(dirname $0)
 
-venv-onoff/bin/python3 ./create-insert.py
+env python3 ./create-insert.py

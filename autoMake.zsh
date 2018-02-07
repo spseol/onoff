@@ -41,7 +41,7 @@ while true; do
         echo -ne " ~ "
     fi
 
-    sleep 0.5 
+    sleep 0.1 
 
     if [ $winID ]; then
         xdotool key --window $winID F5  

@@ -110,14 +110,38 @@ p {
     margin-bottom: 2ex;
 }
 
-.nastaveni {
-    table, th, td {
-        border: 1px solid black;
+table.adddomain {
+    td:nth-of-type(2) > input {
+        width: 30em;
+    }
+    background-color: $seda;
+    padding: 1ex;
+    th, td {
+        border: 0px solid black;
         border-collapse: collapse;
     }
-
-    td, th {
-        padding: 1ex;
+    th   {
+        padding: 0ex 1ex 0ex 1ex;
+    }
+    td {
+        padding: 0ex 1ex 1ex 1ex;
+    }
+}
+table.listdomain {
+    tr:nth-of-type(1) {
+        border-bottom: 2px solid cs-tertiary();
+    }
+    tr td:nth-of-type(3) {
+        max-width: 25em;
+    }
+    tr:hover {
+        background-color: $seda;
+    }
+    td {
+        padding: 0.5ex 1ex 0ex;
+    }
+    .inactive {
+        color: #555;
     }
 }
 
@@ -354,6 +378,37 @@ ul.messages {
         @include border-corner-radius(bottom, right, 30px);
     }
 }
+
+
+h3.ip {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.radio {
+    padding-top: 0px;
+    margin-top: 0px;
+    li {
+        list-style: none;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 120%;
+    }
+    label {
+        background-color: rgba(255, 165, 0, 0.2);
+        padding: 1ex 2ex;
+        margin: 0px;
+    }
+    input[type="radio"]:checked+label {
+        background-color: rgba(255, 165, 0, 0.8);
+    }
+    input {
+        /*display: none;*/
+        position: absolute;
+        left: -9999999px;
+    }
+}
+
 
 
 .bar {
