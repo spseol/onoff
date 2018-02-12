@@ -1,7 +1,7 @@
 import os
 import sys
 
-VENVNEME = 'venv-onoff'
+VENVNEME = '.venv-OnOff'
 
 DIR = os.path.dirname(__file__)
 if DIR == '':
@@ -13,5 +13,5 @@ exec(open(activate).read(), {'__file__': THIS})
 
 sys.path.insert(0, DIR)
 
-import apache_onoff
-application = apache_onoff.app
+import web_interface 
+application = web_interface.app

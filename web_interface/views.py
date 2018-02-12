@@ -148,6 +148,8 @@ def onoff():
 @app.route('/<regex("LP[13456]|MIT"):lab>/', methods=['GET', 'POST'])
 @login_required
 def place(lab):
+    import os
+    print(os.getcwd())
     form = ListModeForm()
 
     if form.validate_on_submit():
@@ -155,19 +157,25 @@ def place(lab):
             for subform in form.switches:
                 mode = Mode.get(name=subform.mode.data.capitalize())
                 Station[subform.table_id.data].mode = mode
-        not call(['sudo', '/home/marek/weby/onoff/make_squid_conf.sh',
-                 current_user.name, lab]) or flash('Natala chybička')
+        ret = call(['./make_squid_conf.sh', current_user.name, lab.lower()])
+        if ret == 0:
+            flash('Konfigurace byla změněna.')
+        else:
+            flash('Natala chybička')
         return redirect(request.path)
 
     with db_session:
-        for station in select(s for s in Station if s.room.name == lab):
+        for station in select(s for s in Station if s.room.name == lab
+                              ).order_by(Station.address):
             switch = ModeForm()
             switch.table_id = station.id
             switch.address = station.address
             switch.mode = station.mode.name.lower()
             form.switches.append_entry(switch)
 
-    return render_template('lab.html', lab=lab, form=form)
+    with open(lab.lower()+'.conf') as f:
+        conf = f.read()
+    return render_template('lab.html', lab=lab, form=form, conf=conf)
 
 
 @app.route('/login/', methods=['GET', 'POST'])

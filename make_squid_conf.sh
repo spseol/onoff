@@ -6,8 +6,10 @@
 ############################################################
 
 cd $(dirname $0)
+user=$1
+lab=$(echo $2 | awk '{print tolower($0)}')
 
-.venv-OnOff/bin/python3 make_squid_conf.py $@ >lp6.conf
-chmod 644 lp6.conf
+.venv-OnOff/bin/python3 make_squid_conf.py $@ >${lab}.conf
+chmod 644 ${lab}.conf
 
-service squid reload
+sudo service squid reload

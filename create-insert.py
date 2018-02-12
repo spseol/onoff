@@ -67,3 +67,7 @@ with db_session:
         IP = '172.16.7.{}'.format(101+i)
         s = Station.get(address=IP) or \
             Station(address=IP, room=room, mode=Full)
+
+    for room in rooms:
+        f = open(room.lower() + '.conf', 'a')
+        f.close()

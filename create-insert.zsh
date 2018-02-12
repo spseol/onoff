@@ -9,3 +9,4 @@
 cd $(dirname $0)
 
 env python3 ./create-insert.py
+
