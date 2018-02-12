@@ -8,8 +8,7 @@
 from web_interface.models import User, Role, Mode, Room, Station
 from pony.orm import db_session
 
-admins = 'nozka burda vakri kolar'.split()
-teachers = 'stejskal sovakova gebova baranek vesela babicka duda'.split()
+from config import admins, teachers
 
 modes = 'Full On Teach Off'.split()
 

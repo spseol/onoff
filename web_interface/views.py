@@ -155,8 +155,8 @@ def place(lab):
             for subform in form.switches:
                 mode = Mode.get(name=subform.mode.data.capitalize())
                 Station[subform.table_id.data].mode = mode
-        call(['sudo', '/home/marek/weby/onoff/make_squid_conf.sh',
-              current_user.name, lab])
+        not call(['sudo', '/home/marek/weby/onoff/make_squid_conf.sh',
+                 current_user.name, lab]) or flash('Natala chybička')
         return redirect(request.path)
 
     with db_session:
@@ -191,7 +191,15 @@ def login():
         with db_session:
             user = User.get(name=name)
         if user:
-            if name == 'nozka' or name == 'stejskal':
+            from ldap3 import Server, Connection, ALL, NTLM
+            from config import ldap_server
+            server = Server(ldap_server, get_info=ALL)
+            conn = Connection(server,
+                              user="spseol.cz\\{}".format(name),
+                              password=passwd,
+                              authentication=NTLM)
+            # if name == 'nozka' or name == 'stejskal':
+            if conn.bind():
                 login_user(user, remember=form.remember_me.data)
                 flash("Právě jsi se přihlásil!")
                 next = request.args.get('next')
