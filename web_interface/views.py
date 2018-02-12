@@ -11,6 +11,9 @@ from pony.orm.core import TransactionIntegrityError
 from time import sleep
 from datetime import datetime
 from subprocess import call
+from pygments import highlight
+from pygments.lexers import SquidConfLexer
+from pygments.formatters import HtmlFormatter
 ############################################################################
 
 
@@ -175,6 +178,7 @@ def place(lab):
 
     with open(lab.lower()+'.conf') as f:
         conf = f.read()
+    conf = Markup(highlight(conf, SquidConfLexer(), HtmlFormatter()))
     return render_template('lab.html', lab=lab, form=form, conf=conf)
 
 

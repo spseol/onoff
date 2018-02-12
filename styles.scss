@@ -381,11 +381,14 @@ ul.messages {
 
 
 h3.ip {
-    padding-bottom: 0px;
-    margin-bottom: 0px;
+    padding: 0px;
+    margin: 0px;
+    display: inline-block;
+    width: 2em;
 }
 
 .radio {
+    display: inline-block;
     padding-top: 0px;
     margin-top: 0px;
     li {
@@ -393,11 +396,16 @@ h3.ip {
         display: inline-block;
         font-weight: bold;
         font-size: 120%;
+        padding: 0px;
+        margin: 2ex 0ex;
     }
     label {
         background-color: rgba(255, 165, 0, 0.2);
-        padding: 1ex 2ex;
-        margin: 0px;
+        padding: 7px;
+        margin: 5px;
+        border: 2px green solid;
+        @include border-radius(10px);
+
     }
     input[type="radio"]:checked+label {
         background-color: rgba(255, 165, 0, 0.8);

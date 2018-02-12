@@ -6,19 +6,18 @@
 
   <form method="post">
     {{ form.hidden_tag() }}
-
-    {{ form.submit() }}
-    <div></div>
     {% for subform in form.switches %}
+      <div>
       {{ subform.hidden_tag() }}
-      <h3 class="ip">{{ subform.address.data[-2:] }}</h3>
+      <h3 class="ip">{{ subform.address.data[-2:] }}:</h3>
       {{ subform.mode(class='radio') }}
+      {{ form.submit() }}
+      </div>
     {% endfor %}
-    {{ form.submit() }}
   </form>
 
   <h3>Výpis poslední konfigurace</h3>
 
-  <pre>{{conf}}</pre>
+  <pre><code>{{conf}}</code></pre>
 
 {% endblock %}
