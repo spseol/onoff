@@ -44,7 +44,10 @@ while true; do
     sleep 0.1 
 
     if [ $winID ]; then
-        xdotool key --window $winID F5  
+        aktivni=$(xdotool getactivewindow)
+        xdotool windowactivate --sync $winID
+        xdotool key --clearmodifiers ctrl+F5 
+        xdotool windowactivate --sync $aktivni
     fi
     printf "%03d: " ${radek}; 
     date

@@ -32,7 +32,7 @@
         <img src="{{ url_for('static', filename='logo-thumb.png') }}"
              width="40" height="46" alt=""> On/Off</a>
     </h1>
-    <nav>
+    <nav id="topnav">
       <ul>
         {%- for lab in rooms -%}
         <li><a href="{{url_for('place', lab=lab)}}">{{lab}}</a></li>

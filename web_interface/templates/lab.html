@@ -2,6 +2,10 @@
 
 {% block content %}
 <div id="nav">  
+  <p><a id="topclick" href="#topnav">Nahoru</a><br />
+  {% for _ in range(form.switches|length) %}
+    <a href="#switches-{{loop.index0}}-mode" class="navlink">{{loop.index}}</a>
+  {% endfor %}</a>
   <p><button id="full">Vše Full</button></p>
   <p><button id="on">Vše On</button></p>
   <p><button id="teach">Vše Teach</button></p>

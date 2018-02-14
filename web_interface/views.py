@@ -164,7 +164,7 @@ def place(lab):
         if ret == 0:
             flash('Konfigurace byla změněna.')
         else:
-            flash('Natala chybička')
+            flash('Natala chybička', 'error')
         return redirect(request.path)
 
     with db_session:

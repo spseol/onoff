@@ -430,12 +430,28 @@ h3.ip {
 #nav {
     width: 19%;
     position: fixed;
-    top: 30%;
-    left: 80%;
+    button {
+        font-size: 90%;
+    }
+    overflow: auto;
+    max-height: 100%;
+}
+
+a.navlink {
+    display: inline-block;
+    width: 3ex;
+    text-decoration: none;
+    padding-left: auto;
+    padding-right: auto;
+    &:hover {
+        color: white;
+        background-color: darkorange;
+    }
 }
 
 #form {
-    width: 79%;
+    width: 77%;
+    margin-left: 22%;
 }
 
 
