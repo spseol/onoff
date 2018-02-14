@@ -210,7 +210,6 @@ def login():
                               user="spseol.cz\\{}".format(name),
                               password=passwd,
                               authentication=NTLM)
-            # if name == 'nozka' or name == 'stejskal':
             if conn.bind():
                 login_user(user, remember=form.remember_me.data)
                 flash("Právě jsi se přihlásil!")
@@ -237,9 +236,9 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    print(error.code)
-    print(error.name)
-    print(error.description)
+    # print(error.code)
+    # print(error.name)
+    # print(error.description)
     return render_template('404.html', e=error), 404
 
 
