@@ -53,38 +53,42 @@ with db_session:
         print('http_access allow {}_Full'.format(room.name))
     print()
 
-    print('# On domain')
-    if count(s for s in Station if s.room == room and s.mode.name == 'On') \
-            and count(d for d in Domain if d.mode.name == 'On' and
-                      d.user.name == user and not d.regexp and d.alive):
+    print('# On domain and regexp')
+    d = count(s for s in Station if s.room == room and s.mode.name == 'On') \
+        and count(d for d in Domain if d.mode.name == 'On' and
+                  d.user.name == user and not d.regexp and d.alive)
+    r = count(s for s in Station if s.room == room and s.mode.name == 'On') \
+        and count(d for d in Domain if d.mode.name == 'On' and
+                  d.user.name == user and d.regexp and d.alive)
+    if d:
         print('http_access deny  {0}_On  d_{1}_{0}_On'.format(room.name,
                                                               user))
-        print('http_access allow {0}_On !d_{1}_{0}_On'.format(room.name,
-                                                              user))
-    print('# On regexp')
-    if count(s for s in Station if s.room == room and s.mode.name == 'On') \
-            and count(d for d in Domain if d.mode.name == 'On' and
-                      d.user.name == user and d.regexp and d.alive):
         print('http_access deny  {0}_On  r_{1}_{0}_On'.format(room.name,
+                                                              user))
+    if r:
+        print('http_access allow {0}_On !d_{1}_{0}_On'.format(room.name,
                                                               user))
         print('http_access allow {0}_On !r_{1}_{0}_On'.format(room.name,
                                                               user))
     print()
 
-    print('# Teach domain')
-    if count(s for s in Station if s.room == room and s.mode.name == 'Teach') \
-            and count(d for d in Domain if d.mode.name == 'Teach' and
-                      d.user.name == user and not d.regexp and d.alive):
+    print('# Teach domain and regexp')
+    d = count(s for s in Station if s.room == room and s.mode.name == 'Teach')\
+        and count(d for d in Domain if d.mode.name == 'Teach' and
+                  d.user.name == user and not d.regexp and d.alive)
+    r = count(s for s in Station if s.room == room and s.mode.name == 'Teach')\
+        and count(d for d in Domain if d.mode.name == 'Teach' and
+                  d.user.name == user and d.regexp and d.alive)
+    if d:
         print('http_access allow {0}_Teach  d_{1}_{0}_Teach'.format(room.name,
                                                                     user))
-        print('http_access deny  {0}_Teach !d_{1}_{0}_Teach'.format(room.name,
-                                                                    user))
-    print('# Teach regexp')
-    if count(s for s in Station if s.room == room and s.mode.name == 'Teach') \
-            and count(d for d in Domain if d.mode.name == 'Teach' and
-                      d.user.name == user and d.regexp and d.alive):
+    if r:
         print('http_access allow {0}_Teach  r_{1}_{0}_Teach'.format(room.name,
                                                                     user))
+    if d:
+        print('http_access deny  {0}_Teach !d_{1}_{0}_Teach'.format(room.name,
+                                                                    user))
+    if r:
         print('http_access deny  {0}_Teach !r_{1}_{0}_Teach'.format(room.name,
                                                                     user))
     print()
