@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div id="nav">  
+  <p><button id="full">Vše Full</button></p>
+  <p><button id="on">Vše On</button></p>
+  <p><button id="teach">Vše Teach</button></p>
+  <p><button id="off">Vše Off</button></p>
+  <p><button id="goo">Odeslat</button></p>
+</div>  
 
+<div id="form">  
   <h2>Laboratoř: {{lab}}</h2>
 
   <p><strong>Tlačítko "Odeslat" je zde v každém řádku jen pro větší pohodlí.
@@ -11,7 +19,7 @@
   <form method="post">
     {{ form.hidden_tag() }}
     {% for subform in form.switches %}
-      <div>
+      <div class="station">
       {{ subform.hidden_tag() }}
       <h3 class="ip">{{ subform.address.data[-2:] }}:</h3>
       {{ subform.mode(class='radio') }}
@@ -23,5 +31,5 @@
   <h3>Výpis poslední konfigurace</h3>
 
   <pre><code>{{conf}}</code></pre>
-
+</div>
 {% endblock %}

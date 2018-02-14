@@ -391,6 +391,12 @@ h3.ip {
     width: 2em;
 }
 
+.station {
+    input[type="submit"] {
+        padding: 1ex;
+    }
+}
+
 .radio {
     display: inline-block;
     padding-top: 0px;
@@ -407,7 +413,7 @@ h3.ip {
         background-color: rgba(255, 165, 0, 0.2);
         padding: 7px;
         margin: 5px;
-        border: 2px green solid;
+        border: 3px green solid;
         @include border-radius(10px);
 
     }
@@ -419,6 +425,17 @@ h3.ip {
         position: absolute;
         left: -9999999px;
     }
+}
+
+#nav {
+    width: 19%;
+    position: fixed;
+    top: 30%;
+    left: 80%;
+}
+
+#form {
+    width: 79%;
 }
 
 
