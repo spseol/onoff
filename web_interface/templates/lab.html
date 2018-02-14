@@ -15,7 +15,7 @@
       {{ subform.hidden_tag() }}
       <h3 class="ip">{{ subform.address.data[-2:] }}:</h3>
       {{ subform.mode(class='radio') }}
-      {{ form.submit() }}
+      {{ form.submit(id='submit-{}'.format(loop.index)) }}
       </div>
     {% endfor %}
   </form>

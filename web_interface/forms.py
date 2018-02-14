@@ -76,4 +76,4 @@ class ModeForm(FlaskForm):
 
 class ListModeForm(FlaskForm):
     switches = FieldList(FormField(ModeForm))
-    submit = SubmitField('Odelsat')
+    submit = SubmitField('Odeslat')
