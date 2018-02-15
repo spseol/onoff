@@ -63,11 +63,13 @@ with db_session:
     if d:
         print('http_access deny  {0}_On  d_{1}_{0}_On'.format(room.name,
                                                               user))
+    if r:
         print('http_access deny  {0}_On  r_{1}_{0}_On'.format(room.name,
                                                               user))
-    if r:
+    if d:
         print('http_access allow {0}_On !d_{1}_{0}_On'.format(room.name,
                                                               user))
+    if r:
         print('http_access allow {0}_On !r_{1}_{0}_On'.format(room.name,
                                                               user))
     print()

@@ -6,7 +6,8 @@ from .forms import (LoginForm, DomainForm, PortForm,
                     ModeForm, ListModeForm)
 from flask_login import (login_user, logout_user, current_user, login_required)
 from .models import User, Mode, Domain, Loginlog, Room, Station
-from pony.orm import db_session, select
+from pony.orm import db_session, select, delete
+# from pony.orm import set_sql_debug
 from pony.orm.core import TransactionIntegrityError
 from time import sleep
 from datetime import datetime
@@ -14,6 +15,7 @@ from subprocess import call
 from pygments import highlight
 from pygments.lexers import SquidConfLexer
 from pygments.formatters import HtmlFormatter
+from uuid import UUID
 ############################################################################
 
 
@@ -86,40 +88,46 @@ def onoff():
         with db_session:
             for subform in lform_on.switches:
                 if subform.delete.data:
-                    Domain[subform.table_id.data].delete()
+                    uuid = UUID(subform.table_id.data)
+                    delete(d for d in Domain if d.id == uuid and
+                           d.user.name == current_user.name)
         return redirect(request.path+'#on')
     # Teach vymazání domén
     if lform_teach.validate_on_submit() and lform_teach.deleteBtn.data:
         with db_session:
             for subform in lform_teach.switches:
                 if subform.delete.data:
-                    Domain[subform.table_id.data].delete()
+                    uuid = UUID(subform.table_id.data)
+                    delete(d for d in Domain if d.id == uuid and
+                           d.user.name == current_user.name)
         return redirect(request.path+'#teach')
 
     # On Aktivace/Deaktivace
     if lform_on.validate_on_submit() and lform_on.aliveBtn.data:
         with db_session:
             for subform in lform_on.switches:
-                if subform.alive.data:
-                    Domain[subform.table_id.data].alive = True
-                else:
-                    Domain[subform.table_id.data].alive = False
+                uuid = UUID(subform.table_id.data)
+                d = Domain[uuid]
+                if d.user.name == current_user.name:
+                    d.alive = subform.alive.data
         return redirect(request.path+'#on')
     # Teach Aktivace/Deaktivace
     if lform_teach.validate_on_submit() and lform_teach.aliveBtn.data:
         with db_session:
             for subform in lform_teach.switches:
-                if subform.alive.data:
-                    Domain[subform.table_id.data].alive = True
-                else:
-                    Domain[subform.table_id.data].alive = False
+                uuid = UUID(subform.table_id.data)
+                d = Domain[uuid]
+                if d.user.name == current_user.name:
+                    d.alive = subform.alive.data
         return redirect(request.path+'#teach')
 
     with db_session:
         list_on = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
-                         for d in Domain if d.mode.name == 'On')[:]
+                         for d in Domain if d.mode.name == 'On' and
+                         d.user.name == current_user.name)[:]
         list_teach = select((d.id, d.string, d.alive, d.regexp, d.ipaddress)
-                            for d in Domain if d.mode.name == 'Teach')[:]
+                            for d in Domain if d.mode.name == 'Teach' and
+                            d.user.name == current_user.name)[:]
 
     for table_id, string, alive, regexp, ipaddress in list_on:
         switch = AliveDeleteForm()

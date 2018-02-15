@@ -9,6 +9,9 @@ from pony.orm import (Database,
                       Required,
                       composite_key)
 
+# from pony.orm import set_sql_debug
+# set_sql_debug(True)
+
 db = Database("postgres",
               host="localhost",
               user=app.config['PG_USER'],
@@ -53,7 +56,7 @@ class Domain(db.Entity):
     user = Required('User')
     alive = Required(bool, default=True)  # aktivní?
     # admin může šahat do šablony a user má možnost si šablonu nakopírovat
-    template = Required(bool, default=False)  
+    template = Required(bool, default=False)
     regexp = Required(bool, default=False)  # acl  JMENO url_regex -i
     ipaddress = Required(bool, default=False)  # acl JMENO dst
     permit = Optional(bool)
