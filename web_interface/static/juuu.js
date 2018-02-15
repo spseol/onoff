@@ -28,7 +28,12 @@ $( document ).ready(function() {
     $("#topclick").click(function() {
         $('html, body').animate({
             scrollTop: $("nav").offset().top
-        }, 600);
+        }, 777);
+    });
+    $("#botomclick").click(function() {
+        $('html, body').animate({
+            scrollTop: $("#conf").offset().top
+        }, 777);
     });
 
     var nav = $('#nav');

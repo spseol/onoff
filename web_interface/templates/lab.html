@@ -6,6 +6,8 @@
   {% for _ in range(form.switches|length) %}
     <a href="#switches-{{loop.index0}}-mode" class="navlink">{{loop.index}}</a>
   {% endfor %}</a>
+  <br /><a id="botomclick" href="#topnav">Dolů</a>
+  </p>
   <p><button id="full">Vše Full</button></p>
   <p><button id="on">Vše On</button></p>
   <p><button id="teach">Vše Teach</button></p>
@@ -32,7 +34,7 @@
     {% endfor %}
   </form>
 
-  <h3>Výpis poslední konfigurace</h3>
+  <h3 id="conf">Výpis poslední konfigurace</h3>
 
   <pre><code>{{conf}}</code></pre>
 </div>
