@@ -48,5 +48,12 @@ $( document ).ready(function() {
         }
         $('#nav').css({top: pos});
     })
+
+
+    $(".bar").mouseenter(function() {
+        $(this).css("height", 7 + Math.floor(Math.random() * 123)+"px");
+    })
+
+
 });
 
