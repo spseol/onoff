@@ -1,6 +1,11 @@
 /* juuu.js */
 
 $( document ).ready(function() {
+
+    $(".bar").mouseenter(function() {
+        $(this).css("height", 7 + Math.floor(Math.random() * 123)+"px");
+    })
+
     $('label:contains("On")').css("border-color", "blue");
     $('label:contains("Teach")').css("border-color", "magenta");
     $('label:contains("Off")').css("border-color", "red");
@@ -36,6 +41,7 @@ $( document ).ready(function() {
         }, 777);
     });
 
+
     var nav = $('#nav');
     var navpos = nav.position().top;
 
@@ -48,12 +54,6 @@ $( document ).ready(function() {
         }
         $('#nav').css({top: pos});
     })
-
-
-    $(".bar").mouseenter(function() {
-        $(this).css("height", 7 + Math.floor(Math.random() * 123)+"px");
-    })
-
 
 });
 
